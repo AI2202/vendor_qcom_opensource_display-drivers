@@ -29,17 +29,20 @@
 			DRM_INFO("[msm-dp-info][%-4d]"fmt, current->pid,    \
 					##__VA_ARGS__);                      \
 		else                                                         \
-			pr_info("[drm:%s][msm-dp-info][%-4d]"fmt, __func__, \
+			pr_info("[DP][drm:%s][msm-dp-info][%-4d]"fmt, __func__, \
 				       current->pid, ##__VA_ARGS__);         \
 	} while (0)
 
 #define DP_WARN(fmt, ...)                                    \
-	pr_warn("[drm:%s][msm-dp-warn][%-4d]"fmt, __func__,  \
+	pr_warn("[DP][drm:%s][msm-dp-warn][%-4d]"fmt, __func__,  \
 			current->pid, ##__VA_ARGS__)
 
 #define DP_ERR(fmt, ...)                                    \
-	pr_err("[drm:%s][msm-dp-err][%-4d]"fmt, __func__,   \
+	pr_err("[DP][drm:%s][msm-dp-err][%-4d]"fmt, __func__,   \
 		       current->pid, ##__VA_ARGS__)
+
+#define DP_LOG(fmt, ...)                                    \
+    pr_err("[DP][msm-dp:%s] "fmt, __func__, ##__VA_ARGS__)
 
 #define DEFAULT_DISCONNECT_DELAY_MS 0
 #define MAX_DISCONNECT_DELAY_MS 10000
@@ -83,6 +86,11 @@ struct dp_debug {
 
 	void (*abort)(struct dp_debug *dp_debug);
 	void (*set_mst_con)(struct dp_debug *dp_debug, int con_id);
+
+	bool aux_err;
+	bool swing_dbg_en;
+	bool pre_emp_dbg_en;
+	bool pre_emp_108_dbg_en;
 };
 
 /**

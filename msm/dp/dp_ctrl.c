@@ -706,6 +706,11 @@ static void dp_ctrl_select_training_pattern(struct dp_ctrl_private *ctrl,
 	else
 		pattern = DP_TRAINING_PATTERN_2;
 
+	if (dp_asus_validate_dp_version(ctrl->panel) && drm_dp_tps4_supported(ctrl->panel->dpcd)) {
+		DP_LOG("This should be DP1.2 but reported DP1.4, change it back");
+		pattern = DP_TRAINING_PATTERN_3;
+	}
+
 	if (!downgrade)
 		goto end;
 
